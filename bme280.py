@@ -26,12 +26,12 @@ def init():
 
 #Devuelve los datos del sensor
 def line():
-        return "%f %f %f %f %f\n" % (time.time(), bme280.temperature, bme280.humidity, bme280.pressure, bme280.altitude)
+    return "%f %f %f %f %f\n" % (time.time(), bme280.temperature, bme280.humidity, bme280.pressure, bme280.altitude)
 
 #Escribe los datos al archivo de texto
 def writeLogLine():
-        outputLog.write(line())
-        outputLog.flush()
+	outputLog.write(line())
+	outputLog.flush()
 
 def close():
 	outputLog.close()
