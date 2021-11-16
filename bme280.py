@@ -1,9 +1,9 @@
 '''
 Funciones librería
-	 .init (inicializar)
-	 .line (datos)
-	 .writeLogLine (escribir datos a fichero)
-	 .altitud (altitud)
+	.init (inicializar)
+	.line (datos)
+	.writeLogLine (escribir datos a fichero)
+	.altitud (altitud)
 '''
 
 import board
