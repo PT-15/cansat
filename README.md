@@ -1,2 +1,2 @@
 # CanSat
-https://www.bgsu.edu/arts-and-sciences/computer-science/cs-documentation/writing-data-to-files-using-c-plus-plus.html
+Repositorio del proyecto del concurso CanSat 2022. Colaboración entre los institutos Eduardo Blanco Amor y Rego de Trabe.
