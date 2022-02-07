@@ -18,3 +18,6 @@ def init():
 
 def send(num):
    node.send(num.encode())
+
+def receive():
+   node.receive()
