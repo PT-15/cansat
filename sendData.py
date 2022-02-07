@@ -1,15 +1,17 @@
-import sensor
+import bme280
 import loraLibrary as lora
+from time import sleep
 lora.init()
-sensor.init()
+bme280.init()
 
 while True:
-   sensor.writeLogLine()
+   logLine = bme280.line()
+   with open('data.txt', 'at') as log:
+      log.write(logLine)
+      log.flush()
 
-   with open ('data.txt', 'rt') as sensorLog:
-      dataLine = sensorLog.readline()
-
-   sensorData = dataLine.split()
+   sensorData = logLine.split()
    for num in sensorData:
-      num.encode()
-      node.send(num)
+      lora.send(num)
+   print ("Line encoded")
+   sleep(1)
