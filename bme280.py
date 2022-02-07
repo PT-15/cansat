@@ -21,8 +21,7 @@ def init():
 
 	i2c = busio.I2C(board.SCL, board.SDA)
 	bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
-	bme280.sea_level_pressure = 1004.8
-	outputLog = open ('data.txt', 'a')
+	bme280.sea_level_pressure = 1004.8 #Cambiar el día de la competición
 
 #Devuelve los datos del sensor
 def line():
@@ -30,8 +29,6 @@ def line():
 
 #Escribe los datos al archivo de texto
 def writeLogLine():
-	outputLog.write(line())
-	outputLog.flush()
-
-def close():
-	outputLog.close()
+	with open('data.txt', 'a') as log:
+		log.write(line())
+		log.flush()
