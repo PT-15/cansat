@@ -10,6 +10,6 @@ while True:
    #   log.write(logLine)
    #   log.flush()
 
-   lora.send("Hello")
+   lora.send(42)
    print ("Line encoded")
    sleep(2)
