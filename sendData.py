@@ -3,6 +3,7 @@ import board
 import serial
 import radio
 import bme280
+from time import sleep
 
 radio.init()
 bme280.init()
@@ -17,7 +18,7 @@ while True:
 
 	#Enviar datos sensor
 	with open ("data.txt", 'at') as f:
-		f.write(sensorLine) + "\n")
+		f.write(sensorLine + "\n")
 		f.flush()
 	time = bytes(sensorD[0], "utf-8")
 	radio.rfm69.send(time)
@@ -80,4 +81,4 @@ while True:
 			radio.rfm69.send(error)
 		sleep(0.5)
 
-	bme280.close()
+bme280.close()
