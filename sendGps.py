@@ -2,16 +2,38 @@ import busio
 import board
 import serial
 import radio
+import bme280
 
 radio.init()
+bme280.init()
 uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=3000)
 
 while True:
-	line = uart.readline()
-	data = str(line).split(",", 9)
+	#Recoger datos
+	gpsLine = uart.readline()
+	sensorLine = bme280.line()
+	data = str(gpsLine).split(",", 9)
+	sensorD = sensorLine.split(" ")
+
+	#Enviar datos sensor
+	with open ("data.txt", 'at') as f:
+		f.write(sensorLine) + "\n")
+		f.flush()
+	time = bytes(sensorD[0], "utf-8")
+	radio.rfm69.send(time)
+	d1 = bytes(sensorD[1], "utf-8")
+	radio.rfm69.send(d1)
+	d2 = bytes(sensorD[2], "utf-8")
+	radio.rfm69.send(d2)
+	d3 = bytes(sensorD[3], "utf-8")
+	radio.rfm69.send(d3)
+	d4 = bytes(sensorD[4], "utf-8")
+	radio.rfm69.send(d4)
+
+	#Enviar datos gps
 	if (data[0] == "b'$GNGGA"):
 		with open ("infoGps.txt", 'at') as f:
-			f.write(str(line) + "\n")
+			f.write(str(gpsLine) + "\n")
 			f.flush()
 
 		if (data[1]):
@@ -57,3 +79,5 @@ while True:
 			error = bytes("-1", "utf-8")
 			radio.rfm69.send(error)
 		sleep(0.5)
+
+	bme280.close()
