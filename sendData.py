@@ -11,14 +11,20 @@ uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=3000)
 
 while True:
 	#Recoger datos
-	gpsLine = uart.readline()
 	sensorLine = bme280.line()
-	data = str(gpsLine).split(",", 9)
 	sensorD = sensorLine.split(" ")
+	gpsLine = uart.readline()
+	data = str(gpsLine).split(",", 9)
+
+	#Guardar datos gps
+	with open ("infoGps.txt", 'at') as f:
+		f.write(str(gpsLine) + "\n")
+		f.flush()
+
 
 	#Enviar datos sensor
 	with open ("data.txt", 'at') as f:
-		f.write(sensorLine + "\n")
+		f.write(sensorLine)
 		f.flush()
 	time = bytes(sensorD[0], "utf-8")
 	radio.rfm69.send(time)
@@ -33,10 +39,8 @@ while True:
 
 	#Enviar datos gps
 	if (data[0] == "b'$GNGGA"):
-		with open ("infoGps.txt", 'at') as f:
-			f.write(str(gpsLine) + "\n")
-			f.flush()
-
+		checker = bytes("GPS", "utf-8")
+		radio.rfm69.send(checker)
 		if (data[1]):
 			time = bytes(data[1], "utf-8")
 			radio.rfm69.send(time)
@@ -79,6 +83,5 @@ while True:
 		else:
 			error = bytes("-1", "utf-8")
 			radio.rfm69.send(error)
-		sleep(0.5)
 
 bme280.close()
