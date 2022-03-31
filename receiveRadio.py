@@ -1,26 +1,26 @@
 import radio
 
-SENSOR = "sensorData.txt"
-GPS = "gpsData.txt"
 radio.init()
-i = 0
-file = SENSOR
 
 while True:
-	if (i == 10):
-		i = 0;
 	msg = radio.rfm69.receive(timeout=2)
 	if msg is None:
 		print ("No message")
-		i = 0
 	else:
 		data = msg.decode()
-		if (i < 5):
-			file = SENSOR
+		if (data == "GPS"):
+			for x in range(5):
+				msg = radio.rfm69.receive(timeout=2)
+				data = msg.decode()
+				with open ("gpsData.txt", 'at') as f:
+					f.write(data + " ")
+					f.flush()
+			with open ("gpsData.txt", 'at') as f:
+				f.write("\n")
+				f.flush()
 		else:
-			file = GPS
-		with open (file, 'at') as f:
-			f.write(msg)
-			f.flush()
+			with open ("sensorData.txt", 'at') as f:
+				f.write(data + " ")
+				f.flush()
 
 radio.close()
