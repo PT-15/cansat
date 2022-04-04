@@ -3,3 +3,5 @@ data.txt
 pruebaSensor.py
 __pycache__/
 infoGps.txt
+gpsData.txt
+sensorData.txt
